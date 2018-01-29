@@ -4,6 +4,7 @@ import android.content.Context;
 import android.hardware.SensorManager;
 import android.support.annotation.Nullable;
 
+import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -17,9 +18,24 @@ import com.squareup.seismic.ShakeDetector;
 public class RNShakeEventModule extends ReactContextBaseJavaModule implements ShakeDetector.Listener {
     public RNShakeEventModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        SensorManager sensorManager = (SensorManager) reactContext.getSystemService(Context.SENSOR_SERVICE);
-        ShakeDetector shakeDetector = new ShakeDetector(this);
-        shakeDetector.start(sensorManager);
+        final SensorManager sensorManager = (SensorManager) reactContext.getSystemService(Context.SENSOR_SERVICE);
+        final ShakeDetector shakeDetector = new ShakeDetector(this);
+        reactContext.addLifecycleEventListener(new LifecycleEventListener() {
+            @Override
+            public void onHostResume() {
+                shakeDetector.start(sensorManager);
+            }
+
+            @Override
+            public void onHostPause() {
+                shakeDetector.stop();
+            }
+
+            @Override
+            public void onHostDestroy() {
+                shakeDetector.stop();
+            }
+        });
     }
 
     @Override
