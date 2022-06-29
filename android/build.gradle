@@ -19,6 +19,6 @@ android {
 }
 
 dependencies {
-    compile 'com.facebook.react:react-native:+'
-    compile 'com.squareup:seismic:1.0.2'
+    implementation 'com.facebook.react:react-native:+'
+    implementation 'com.squareup:seismic:1.0.2'
 }
