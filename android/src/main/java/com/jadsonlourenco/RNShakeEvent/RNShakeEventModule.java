@@ -23,7 +23,7 @@ public class RNShakeEventModule extends ReactContextBaseJavaModule implements Sh
         reactContext.addLifecycleEventListener(new LifecycleEventListener() {
             @Override
             public void onHostResume() {
-                shakeDetector.start(sensorManager);
+                shakeDetector.start(sensorManager, SensorManager.SENSOR_DELAY_GAME);
             }
 
             @Override
